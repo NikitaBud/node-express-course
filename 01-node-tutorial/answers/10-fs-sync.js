@@ -8,8 +8,7 @@ writeFileSync(
   `\“The fool doth think he is wise, \n 
     but the wise man knows himself to be a fool.\” \n
     ― William Shakespeare
-  `,
-  { flag: 'a' }
+  `
 );
 
 const wisdomQuote = readFileSync(filePath, 'utf8');
