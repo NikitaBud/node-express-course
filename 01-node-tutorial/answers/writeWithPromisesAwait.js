@@ -10,25 +10,26 @@ const writer = async () => {
             `
         );
     } catch (error) {
-        console.log(error)
+        console.log("Error writing file:", error)
     }
 }
 
 const reader = async () => {
     try {
-        return await readFile('./temporary/temp.txt', 'utf8')
+        const readTextResult = await readFile('./temporary/temp.txt', 'utf8');
+        console.log(readTextResult)
+        return readTextResult
     } catch (error) {
-        console.log(error)
+        console.log("Error reading file:", error)
     }
 }
 
 const readWrite = async () => {
     try {
-        const readTextResult = await reader();
-        console.log(readTextResult);
         await writer();
+        await reader();
     } catch (error) {
-        console.log(error)
+        console.log("Error writing or reading function:", error)
     }
 }
 
