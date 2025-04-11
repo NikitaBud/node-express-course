@@ -18,7 +18,7 @@ app.get('/api/v1/products/:productID', (req, res) => {
     const reqItem = products.find((item) => item.id === reqItemId);
 
     if(!reqItem) {
-        return res.status(404).send('That product was not found.');
+        return res.status(404).json({message: 'That product was not found.'});
     }
 
     res.json(reqItem);
@@ -50,14 +50,14 @@ app.get('/api/v1/query', (req, res) => {
     }
 
     if (!sortedProducts.length) {
-        return res.status(200).send('No products were found that match the specified criteria.')
+        return res.status(200).json({message: 'No products were found that match the specified criteria.'})
     }
     
     res.status(200).send(sortedProducts);
 })
 
-app.all('*', (res, req) => {
-    req.status(404).send('404 not found');
+app.all('*', (req, res) => {
+    res.status(404).json({message: '404 not found'});
 })
 
 app.listen(3000, () => {
