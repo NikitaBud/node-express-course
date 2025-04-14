@@ -1,27 +1,41 @@
 const express = require('express');
-const {products} = require('./data');
 
 const app = express();
+const peopleRouter = require('./routes/people');
+const authRouter = require('./routes/auth');
+const productRouter = require('./routes/product');
+const cookieParser = require('cookie-parser');
 
-app.use(express.static('./public'));
+const logger = (req, res, next) => {
+    const method = req.method;
+    const url = req.url;
+    const time = new Date().toUTCString();
+    console.log(method, url, time);
+    next();
+}
 
-app.get('/api/v1/test', (req, res) => {
-    res.json({ message: "It worked!" });
-})
-
-app.get('/api/v1/products', (req, res) => {
-    res.json(products);
-})
-
-app.get('/api/v1/products/:productID', (req, res) => {
-    const reqItemId = parseInt(req.params.productID);
-    const reqItem = products.find((item) => item.id === reqItemId);
-
-    if(!reqItem) {
-        return res.status(404).json({message: 'That product was not found.'});
+const auth = (req, res, next) => {
+    const name = req.cookies.name;
+    if (name) {
+        req.user = name;
+        next();
+    } else {
+        res.status(401).json({message: 'unauthorized'});
     }
+}
 
-    res.json(reqItem);
+// app.use(express.static('./public'), logger);
+app.use(express.static('./methods-public'), logger);
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use('/api/v1/people', peopleRouter);
+app.use('/login', authRouter);
+app.use('/logout', authRouter);
+app.use('/api/v1/products', productRouter);
+app.use(cookieParser());
+
+app.get('/test', auth, (req, res) => {
+    res.status(200).json({ message: `Hello ${req.user}` });
 })
 
 app.get('/api/v1/query', (req, res) => {
