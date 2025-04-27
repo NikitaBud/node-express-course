@@ -33,7 +33,7 @@ const deletePerson = (req, res) => {
     }
 
     people = people.filter(person => person.id !== reqId);
-    res.status(201).json({success: true})
+    res.status(200).json({success: true})
 }
 
 module.exports = {

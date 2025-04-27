@@ -24,7 +24,7 @@ const auth = (req, res, next) => {
     }
 }
 
-// app.use(express.static('./public'), logger);
+app.use(cookieParser());
 app.use(express.static('./methods-public'), logger);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -32,7 +32,6 @@ app.use('/api/v1/people', peopleRouter);
 app.use('/login', authRouter);
 app.use('/logout', authRouter);
 app.use('/api/v1/products', productRouter);
-app.use(cookieParser());
 
 app.get('/test', auth, (req, res) => {
     res.status(200).json({ message: `Hello ${req.user}` });
