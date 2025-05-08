@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const connectionString = `mongodb+srv://${process.env.API_USER}:${process.env.API_KEY}@${process.env.API_HOST}/04-STORE-API?retryWrites=true&w=majority&appName=NodeExpressProject`;
 const connectDB = require('./db/connect');
-const Product = require('./models/Product');
+const Product = require('./models/product');
 
 const jsonProduct = require('./products.json');
 

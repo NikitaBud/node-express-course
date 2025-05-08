@@ -14,12 +14,13 @@ const productsRouter = require('./routes/products');
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 
-// rootes
+// routes
 
 app.get('/', (req, res) => {
-    res.send('<h1>Store Api</h1><a href="/api/v1/products route</a>')
+    res.send('<h1>Store Api</h1><a href="/api/v1/products">The product route</a>')
 });
 
+app.use(express.json());
 app.use('/api/v1/products', productsRouter);
 
 // products route
@@ -30,7 +31,7 @@ app.use(errorHandlerMiddleware);
 const start = async () => {
     try {
         await connectDB(connectionString);
-        app.listen(port, console.log(`Server is listening port ${port}...`));
+        app.listen(port, () => console.log(`Server is listening port ${port}...`));
     } catch (error) {
         console.log(error);
     }
